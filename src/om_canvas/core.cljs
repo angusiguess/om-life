@@ -16,10 +16,13 @@
   (for [dx [-1 0 1] dy (if (zero? dx) [-1 1] [-1 0 1])]
     [(+ dx x) (+ dy y)]))
 
+(def neighbors-memo (memoize neighbors))
+
 (defn step [cells]
-  (set (for [[loc n] (frequencies (mapcat neighbors cells))
+  (set (for [[loc n] (frequencies (mapcat neighbors-memo cells))
              :when (or (= n 3) (and (= n 2) (cells loc)))]
          loc)))
+
 
 (defn render-cells [context world]
   (set! (.-fillStyle context) "#FFFFFF")
