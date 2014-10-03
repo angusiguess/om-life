@@ -9,4 +9,6 @@ goog.addDependency("../cljs/core/async/impl/ioc_helpers.js", ['cljs.core.async.i
 goog.addDependency("../cljs/core/async/impl/timers.js", ['cljs.core.async.impl.timers'], ['cljs.core.async.impl.channels', 'cljs.core.async.impl.dispatch', 'cljs.core', 'cljs.core.async.impl.protocols']);
 goog.addDependency("../cljs/core/async.js", ['cljs.core.async'], ['cljs.core.async.impl.channels', 'cljs.core.async.impl.dispatch', 'cljs.core', 'cljs.core.async.impl.buffers', 'cljs.core.async.impl.protocols', 'cljs.core.async.impl.ioc_helpers', 'cljs.core.async.impl.timers']);
 goog.addDependency("../om/core.js", ['om.core'], ['cljs.core', 'om.dom', 'goog.ui.IdGenerator']);
-goog.addDependency("../om_canvas/core.js", ['om_canvas.core'], ['cljs.core', 'om.dom', 'cljs.core.async', 'om.core']);
+goog.addDependency("../math/seedrandom.js", ['math.seedrandom'], []);
+goog.addDependency("../cemerick/pprng.js", ['cemerick.pprng'], ['math.seedrandom', 'cljs.core']);
+goog.addDependency("../om_canvas/core.js", ['om_canvas.core'], ['cljs.core', 'om.dom', 'cljs.core.async', 'om.core', 'cemerick.pprng']);

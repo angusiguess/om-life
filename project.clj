@@ -5,6 +5,7 @@
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/clojurescript "0.0-2311"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
+                 [com.cemerick/pprng "0.0.3-SNAPSHOT"]
                  [om "0.7.1"]]
 
   :plugins [[lein-cljsbuild "1.0.4-SNAPSHOT"]]
@@ -17,5 +18,6 @@
               :compiler {
                 :output-to "om_canvas.js"
                 :output-dir "out"
+                :libs [""]
                 :optimizations :none
                 :source-map true}}]})

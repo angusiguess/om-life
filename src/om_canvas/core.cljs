@@ -1,13 +1,17 @@
 (ns om-canvas.core
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
+            [cemerick.pprng :as rng]
             [cljs.core.async :as async])
   (:require-macros [cljs.core.async.macros :as m :refer [go alt!]]))
 
 (enable-console-print!)
 
+(def seeded-rng (rng/rng 42))
+
 (defn init-state [n]
-  (set (take n (repeatedly (fn [] [(rand-int 400) (rand-int 400)])))))
+  (set (take n (repeatedly (fn [] [(rng/int seeded-rng 400) 
+                                   (rng/int seeded-rng 400)])))))
 
 (def app-state (atom {:state (init-state 5000)}))
 
