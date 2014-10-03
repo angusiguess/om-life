@@ -6,8 +6,6 @@
 
 (enable-console-print!)
 
-;; 800 by 800
-
 (defn init-state [n]
   (set (take n (repeatedly (fn [] [(rand-int 400) (rand-int 400)])))))
 
@@ -44,12 +42,15 @@
         {:state (init-state 10000)})
       om/IWillMount
       (will-mount [_]
-        (m/go-loop [t (async/timeout 500)]
-                   (async/<! t)
-                   (.profile js/console "dispatch/fire")
-                   (om/update-state! owner [:state] step)
-                   (.profileEnd js/console)
-                   (recur (async/timeout 30))))
+        (let [benchmark-time (async/timeout 60000)]
+          (m/go-loop [t (async/timeout 10)
+                      game-count 0]
+                     (let [[v ch] (async/alts! [t benchmark-time])]
+                       (if (= ch benchmark-time)
+                         (do (println "States generated:" game-count)
+                             (println "States per second:" (/ game-count 60.0)))
+                         (do (om/update-state! owner [:state] step)
+                             (recur (async/timeout 10) (inc game-count))))))))
       om/IDidMount
       (did-mount [_]
         (update owner "main-canvas-ref" (om/get-state owner [:state])))
