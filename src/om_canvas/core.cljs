@@ -1,6 +1,7 @@
 (ns om-canvas.core
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
+            [clojure.core.reducers :as r]
             [cemerick.pprng :as rng]
             [cljs.core.async :as async])
   (:require-macros [cljs.core.async.macros :as m :refer [go alt!]]))
@@ -13,19 +14,21 @@
   (set (take n (repeatedly (fn [] [(rng/int seeded-rng 400) 
                                    (rng/int seeded-rng 400)])))))
 
-(def app-state (atom {:state (init-state 5000)}))
-
-
 (defn neighbors [[x y]]
   (for [dx [-1 0 1] dy (if (zero? dx) [-1 1] [-1 0 1])]
     [(+ dx x) (+ dy y)]))
 
 (def neighbors-memo (memoize neighbors))
 
+(defn reducer-freqs [coll]
+  (r/reduce (fn [counts x]
+              (assoc counts x (inc (get counts x 0)))) {} coll))
+
 (defn step [cells]
-  (set (for [[loc n] (frequencies (mapcat neighbors-memo cells))
-             :when (or (= n 3) (and (= n 2) (cells loc)))]
-         loc)))
+  (let [step (set (for [[loc n] (reducer-freqs (mapcat neighbors-memo cells))
+                        :when (or (= n 3) (and (= n 2) (cells loc)))]
+                    loc))]
+    step))
 
 
 (defn render-cells [context world]
@@ -40,6 +43,7 @@
         context (.getContext canvas "2d")
         world app-state]
     (render-cells context world)))
+
 
 (om/root
   (fn [app owner]
@@ -70,5 +74,5 @@
                          :height 800
                          :width 800
                          :ref "main-canvas-ref"}))))
-  app-state
+  {}
   {:target (. js/document (getElementById "app"))})

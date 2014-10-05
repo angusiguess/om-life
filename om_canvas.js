@@ -1,5 +1,6 @@
 goog.addDependency("base.js", ['goog'], []);
 goog.addDependency("../cljs/core.js", ['cljs.core'], ['goog.string', 'goog.object', 'goog.string.StringBuffer', 'goog.array']);
+goog.addDependency("../clojure/core/reducers.js", ['clojure.core.reducers'], ['cljs.core']);
 goog.addDependency("../om/dom.js", ['om.dom'], ['cljs.core']);
 goog.addDependency("../cljs/core/async/impl/protocols.js", ['cljs.core.async.impl.protocols'], ['cljs.core']);
 goog.addDependency("../cljs/core/async/impl/buffers.js", ['cljs.core.async.impl.buffers'], ['cljs.core', 'cljs.core.async.impl.protocols']);
@@ -11,4 +12,4 @@ goog.addDependency("../cljs/core/async.js", ['cljs.core.async'], ['cljs.core.asy
 goog.addDependency("../om/core.js", ['om.core'], ['cljs.core', 'om.dom', 'goog.ui.IdGenerator']);
 goog.addDependency("../math/seedrandom.js", ['math.seedrandom'], []);
 goog.addDependency("../cemerick/pprng.js", ['cemerick.pprng'], ['math.seedrandom', 'cljs.core']);
-goog.addDependency("../om_canvas/core.js", ['om_canvas.core'], ['cljs.core', 'om.dom', 'cljs.core.async', 'om.core', 'cemerick.pprng']);
+goog.addDependency("../om_canvas/core.js", ['om_canvas.core'], ['clojure.core.reducers', 'cljs.core', 'om.dom', 'cljs.core.async', 'om.core', 'cemerick.pprng']);
